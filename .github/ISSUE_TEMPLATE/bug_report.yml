@@ -1,0 +1,29 @@
+name: Bug report
+description: Report a reproducible problem without sharing private Codex data.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include conversation contents, tokens, usernames, or unredacted local paths. Use the Security tab for vulnerabilities.
+  - type: input
+    id: app-version
+    attributes:
+      label: App version
+      placeholder: 0.1.0-beta.1
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: macOS and Codex versions
+      placeholder: macOS 15.x, codex-cli x.y.z
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Include redacted reproduction steps and the expected behavior.
+    validations:
+      required: true
