@@ -5,10 +5,10 @@ set -euo pipefail
 script_dir="${0:A:h}"
 project_dir="${script_dir:h}"
 release_dir="$project_dir/dist"
-app_dir="$release_dir/Codex File Manager.app"
+app_dir="$release_dir/Codex Tidy.app"
 version="0.1.0"
 release_label="${RELEASE_LABEL:-beta.1}"
-zip_path="$release_dir/Codex-File-Manager-macOS-universal-v${version}-${release_label}.zip"
+zip_path="$release_dir/Codex-Tidy-macOS-universal-v${version}-${release_label}.zip"
 product_dir="$project_dir/.build/apple/Products/Release"
 icon_path="$project_dir/.build/generated/AppIcon.icns"
 

@@ -2,6 +2,8 @@
 
 [English](README.en.md) · [下载公开测试版](https://github.com/Qiushi0919/Codex-Tidy/releases/tag/v0.1.0-beta.1) · [隐私说明](PRIVACY.md)
 
+![Codex Tidy 产品封面：对话、文件与空间，一眼理清](docs/screenshots/codex-tidy-cover.png)
+
 Codex Tidy 是一个开源的 macOS 原生工具，用来查看 Codex 对话文件、项目工作目录与常见构建缓存，并以保守规则释放磁盘空间。
 
 > **非官方社区项目：** 本项目与 OpenAI 无隶属或背书关系。Codex 和 OpenAI 是其各自权利人的商标。
@@ -21,7 +23,7 @@ Codex Tidy 是一个开源的 macOS 原生工具，用来查看 Codex 对话文�
 
 ### 对话、文件位置与空间总览
 
-![Codex 文件管理器空间总览，显示对话、工作目录、日志路径、可安全清理缓存和需检查产物](docs/screenshots/01-overview.png)
+![Codex Tidy 空间总览，显示对话、工作目录、日志路径、可安全清理缓存和需检查产物](docs/screenshots/01-overview.png)
 
 | 可恢复的缓存清理 | 对话永久删除保护 |
 | --- | --- |
@@ -37,7 +39,7 @@ Codex Tidy 是一个开源的 macOS 原生工具，用来查看 Codex 对话文�
 ## 安装公开测试版
 
 1. 从 [GitHub Releases](https://github.com/Qiushi0919/Codex-Tidy/releases) 下载 macOS Universal ZIP。
-2. 解压并把“Codex 文件管理器”拖入“应用程序”。
+2. 解压并把“Codex Tidy”拖入“应用程序”。
 3. 当前 Beta 尚未经过 Apple 公证。第一次打开时，请右键应用选择“打开”；若仍被拦截，可到“系统设置 → 隐私与安全性”选择“仍要打开”。
 
 请仅从本仓库的 Releases 下载。本测试包使用 ad-hoc 签名，正式 Developer ID 签名和 Apple 公证会在取得相应证书后补上。
@@ -49,20 +51,20 @@ Codex Tidy 是一个开源的 macOS 原生工具，用来查看 Codex 对话文�
 ```bash
 swift test
 ./scripts/build-app.sh
-open "dist/Codex File Manager.app"
+open "dist/Codex Tidy.app"
 ```
 
 生成内容：
 
-- `dist/Codex File Manager.app`：通用架构 macOS 应用。
-- `dist/Codex-File-Manager-macOS-universal-v0.1.0-beta.1.zip`：发布包。
+- `dist/Codex Tidy.app`：通用架构 macOS 应用。
+- `dist/Codex-Tidy-macOS-universal-v0.1.0-beta.1.zip`：发布包。
 - `dist/bin/codexfm`：通用架构只读命令行工具。
 
 有 Developer ID 证书时可这样签名；若同时配置 `notarytool` 钥匙串配置，还会自动提交公证：
 
 ```bash
 DEVELOPER_ID_APPLICATION="Developer ID Application: Your Name (TEAMID)" \
-NOTARYTOOL_PROFILE="codex-file-manager" \
+NOTARYTOOL_PROFILE="codex-tidy" \
 ./scripts/build-app.sh
 ```
 

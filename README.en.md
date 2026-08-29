@@ -2,6 +2,8 @@
 
 [中文](README.md) · [Public beta](https://github.com/Qiushi0919/Codex-Tidy/releases/tag/v0.1.0-beta.1) · [Privacy](PRIVACY.md)
 
+![Codex Tidy cover: threads, files, and storage at a glance](docs/screenshots/codex-tidy-cover.png)
+
 Codex Tidy is an open-source native macOS utility for locating Codex conversation logs and project workspaces, inspecting common build artifacts, and reclaiming space with conservative cleanup rules.
 
 > **Unofficial community project:** This project is not affiliated with or endorsed by OpenAI. Codex and OpenAI are trademarks of their respective owners.
@@ -21,7 +23,7 @@ The main window is a real runtime screenshot. The two destructive-action confirm
 
 ### Threads, file locations, and disk usage
 
-![Codex File Manager overview showing threads, working directories, log paths, safe cache candidates, and review-only artifacts](docs/screenshots/01-overview.png)
+![Codex Tidy overview showing threads, working directories, log paths, safe cache candidates, and review-only artifacts](docs/screenshots/01-overview.png)
 
 | Recoverable cache cleanup | Permanent thread deletion protection |
 | --- | --- |
@@ -37,7 +39,7 @@ The app does not bundle Codex, account tokens, or user data. Set `CODEX_BINARY` 
 ## Install the public beta
 
 1. Download the macOS Universal ZIP from [GitHub Releases](https://github.com/Qiushi0919/Codex-Tidy/releases).
-2. Unzip it and move Codex File Manager to Applications.
+2. Unzip it and move Codex Tidy to Applications.
 3. This beta is not yet Apple-notarized. On first launch, Control-click the app and choose **Open**. If macOS still blocks it, use **System Settings → Privacy & Security → Open Anyway**.
 
 Only download builds from this repository's Releases page. The current beta is ad-hoc signed; Developer ID signing and Apple notarization will be added when the required certificate is available.
@@ -47,7 +49,7 @@ Only download builds from this repository's Releases page. The current beta is a
 ```bash
 swift test
 ./scripts/build-app.sh
-open "dist/Codex File Manager.app"
+open "dist/Codex Tidy.app"
 ```
 
 The build script creates a Universal macOS app, a release ZIP, and the read-only `dist/bin/codexfm` CLI. See the Chinese README for signing and notarization environment variables.

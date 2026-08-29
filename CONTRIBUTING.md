@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve Codex File Manager.
+Thanks for helping improve Codex Tidy.
 
 ## Development
 

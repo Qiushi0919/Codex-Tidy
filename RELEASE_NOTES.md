@@ -1,4 +1,4 @@
-# Codex 文件管理器 0.1.0 Beta 1
+# Codex Tidy 0.1.0 Beta 1
 
 首个社区公开测试版。
 
@@ -16,7 +16,7 @@
 
 需要 macOS 14 或更高版本，并已安装、登录 ChatGPT/Codex。请在删除任何内容前备份或提交重要成果。
 
-ZIP SHA-256：`75edf1119be6121a3abeed03a467576d991d3840cc9ae6206607696526d837b5`
+ZIP SHA-256：`9a9a80b3450a3c108f35a44f7731f9b830822ed5d6f57ceb338b6472891e672b`
 
 ---
 

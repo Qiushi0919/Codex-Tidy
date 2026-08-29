@@ -5,7 +5,7 @@ struct CodexFileManagerApp: App {
     @StateObject private var model = AppModel()
 
     var body: some Scene {
-        WindowGroup("Codex 文件管理器") {
+        WindowGroup("Codex Tidy") {
             ContentView()
                 .environmentObject(model)
                 .frame(minWidth: 980, minHeight: 660)
@@ -13,7 +13,7 @@ struct CodexFileManagerApp: App {
         .defaultSize(width: 1_180, height: 780)
         .commands {
             CommandGroup(replacing: .newItem) { }
-            CommandMenu("Codex 文件管理器") {
+            CommandMenu("Codex Tidy") {
                 Button("刷新") {
                     Task { await model.refresh() }
                 }

@@ -96,7 +96,7 @@ public struct CodexAppServerClient: Sendable {
             "params": [
                 "clientInfo": [
                     "name": "codex_file_manager",
-                    "title": "Codex File Manager",
+                    "title": "Codex Tidy",
                     "version": "0.1.0"
                 ]
             ]

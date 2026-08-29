@@ -1,6 +1,6 @@
 # Privacy
 
-Codex File Manager is a local desktop utility. It has no analytics, advertising, crash-reporting SDK, or application-operated server.
+Codex Tidy is a local desktop utility. It has no analytics, advertising, crash-reporting SDK, or application-operated server.
 
 ## Data the app reads
 
@@ -20,7 +20,7 @@ Permanent thread deletion is not recoverable from Trash. Users should commit or 
 
 ## Network behavior
 
-Codex File Manager starts App Server over local standard input/output (`stdio`) and does not open a listening network port. The app itself does not send telemetry. Codex may use the network as part of its normal operation.
+Codex Tidy starts App Server over local standard input/output (`stdio`) and does not open a listening network port. The app itself does not send telemetry. Codex may use the network as part of its normal operation.
 
 ## Reports
 
