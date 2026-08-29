@@ -15,6 +15,18 @@ An open-source native macOS utility for locating Codex conversation logs and pro
 - Archives or permanently deletes threads through App Server instead of editing Codex's private database.
 - Includes a read-only JSON CLI, `codexfm`, for scripts and future Skill integrations.
 
+## Screenshots
+
+All screenshots use sanitized demo data. They contain no real conversation contents, usernames, or private paths.
+
+### Threads, file locations, and disk usage
+
+![Codex File Manager overview showing threads, working directories, log paths, safe cache candidates, and review-only artifacts](docs/screenshots/01-overview.png)
+
+| Recoverable cache cleanup | Permanent thread deletion protection |
+| --- | --- |
+| ![Confirmation before moving rebuildable caches to the macOS Trash](docs/screenshots/02-safe-cleanup-confirmation.png) | ![Explicit confirmation before permanently deleting a Codex thread](docs/screenshots/03-thread-delete-confirmation.png) |
+
 ## Requirements
 
 - macOS 14 Sonoma or later, on Apple Silicon or Intel

@@ -15,6 +15,18 @@
 - 通过 App Server 归档或永久删除对话，不直接修改 Codex 的 SQLite 数据库。
 - 附带只读 `codexfm` CLI，方便脚本或后续 Skill 调用。
 
+## 运行截图
+
+截图使用脱敏演示数据，不包含真实对话内容、用户名或私人路径。
+
+### 对话、文件位置与空间总览
+
+![Codex 文件管理器空间总览，显示对话、工作目录、日志路径、可安全清理缓存和需检查产物](docs/screenshots/01-overview.png)
+
+| 可恢复的缓存清理 | 对话永久删除保护 |
+| --- | --- |
+| ![把可重建缓存移到 macOS 废纸篓前的确认窗口](docs/screenshots/02-safe-cleanup-confirmation.png) | ![永久删除 Codex 对话前的醒目二次确认窗口](docs/screenshots/03-thread-delete-confirmation.png) |
+
 ## 系统要求
 
 - macOS 14 Sonoma 或更高版本（Apple Silicon 与 Intel 均支持）
