@@ -1,8 +1,8 @@
-# Codex File Manager
+# Codex Tidy
 
-[中文](README.md) · [Public beta](https://github.com/Qiushi0919/Codex-File-Manager/releases/tag/v0.1.0-beta.1) · [Privacy](PRIVACY.md)
+[中文](README.md) · [Public beta](https://github.com/Qiushi0919/Codex-Tidy/releases/tag/v0.1.0-beta.1) · [Privacy](PRIVACY.md)
 
-An open-source native macOS utility for locating Codex conversation logs and project workspaces, inspecting common build artifacts, and reclaiming space with conservative cleanup rules.
+Codex Tidy is an open-source native macOS utility for locating Codex conversation logs and project workspaces, inspecting common build artifacts, and reclaiming space with conservative cleanup rules.
 
 > **Unofficial community project:** This project is not affiliated with or endorsed by OpenAI. Codex and OpenAI are trademarks of their respective owners.
 
@@ -36,7 +36,7 @@ The app does not bundle Codex, account tokens, or user data. Set `CODEX_BINARY` 
 
 ## Install the public beta
 
-1. Download the macOS Universal ZIP from [GitHub Releases](https://github.com/Qiushi0919/Codex-File-Manager/releases).
+1. Download the macOS Universal ZIP from [GitHub Releases](https://github.com/Qiushi0919/Codex-Tidy/releases).
 2. Unzip it and move Codex File Manager to Applications.
 3. This beta is not yet Apple-notarized. On first launch, Control-click the app and choose **Open**. If macOS still blocks it, use **System Settings → Privacy & Security → Open Anyway**.
 
