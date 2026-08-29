@@ -1,6 +1,6 @@
 # Codex 文件管理器
 
-[English](README.en.md) · [下载最新版](https://github.com/Qiushi0919/Codex-File-Manager/releases/latest) · [隐私说明](PRIVACY.md)
+[English](README.en.md) · [下载公开测试版](https://github.com/Qiushi0919/Codex-File-Manager/releases/tag/v0.1.0-beta.1) · [隐私说明](PRIVACY.md)
 
 一个开源的 macOS 原生工具，用来查看 Codex 对话文件、项目工作目录与常见构建缓存，并以保守规则释放磁盘空间。
 

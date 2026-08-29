@@ -1,6 +1,6 @@
 # Codex File Manager
 
-[中文](README.md) · [Latest release](https://github.com/Qiushi0919/Codex-File-Manager/releases/latest) · [Privacy](PRIVACY.md)
+[中文](README.md) · [Public beta](https://github.com/Qiushi0919/Codex-File-Manager/releases/tag/v0.1.0-beta.1) · [Privacy](PRIVACY.md)
 
 An open-source native macOS utility for locating Codex conversation logs and project workspaces, inspecting common build artifacts, and reclaiming space with conservative cleanup rules.
 
