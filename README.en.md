@@ -17,7 +17,7 @@ An open-source native macOS utility for locating Codex conversation logs and pro
 
 ## Screenshots
 
-All screenshots use sanitized demo data. They contain no real conversation contents, usernames, or private paths.
+The main window is a real runtime screenshot. The two destructive-action confirmations use demo data, and no deletion was performed while capturing them.
 
 ### Threads, file locations, and disk usage
 
