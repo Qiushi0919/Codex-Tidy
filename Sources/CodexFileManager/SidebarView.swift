@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SidebarView: View {
     @EnvironmentObject private var model: AppModel
+    @EnvironmentObject private var updateChecker: UpdateChecker
 
     var body: some View {
         VStack(spacing: 0) {
@@ -48,6 +49,23 @@ struct SidebarView: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
+                Button {
+                    Task { await updateChecker.check(interactive: true) }
+                } label: {
+                    if updateChecker.isChecking {
+                        ProgressView()
+                            .controlSize(.small)
+                    } else {
+                        Label(
+                            updateChecker.availableRelease == nil ? "检查更新" : "发现新版",
+                            systemImage: updateChecker.availableRelease == nil ? "arrow.down.circle" : "sparkles"
+                        )
+                    }
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .disabled(updateChecker.isChecking)
+                .help("检查 Codex Tidy 更新")
             }
 
             HStack {

@@ -20,7 +20,7 @@ Permanent thread deletion is not recoverable from Trash. Users should commit or 
 
 ## Network behavior
 
-Codex Tidy starts App Server over local standard input/output (`stdio`) and does not open a listening network port. The app itself does not send telemetry. Codex may use the network as part of its normal operation.
+Codex Tidy starts App Server over local standard input/output (`stdio`) and does not open a listening network port. It reads a public update manifest from `raw.githubusercontent.com` at most once per day, or when the user clicks **Check for Updates**, to compare public version metadata. The app does not send telemetry, conversation contents, or local paths. Codex may use the network as part of its normal operation.
 
 ## Reports
 

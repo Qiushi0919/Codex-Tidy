@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var model: AppModel
+    @EnvironmentObject private var updateChecker: UpdateChecker
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
 
     var body: some View {
@@ -29,6 +30,9 @@ struct ContentView: View {
                 await model.refresh()
             }
         }
+        .task {
+            await updateChecker.checkAutomaticallyIfNeeded()
+        }
         .toolbar {
             ToolbarItemGroup {
                 if model.isLoading {
@@ -52,6 +56,19 @@ struct ContentView: View {
             Button("好", role: .cancel) { model.noticeMessage = nil }
         } message: {
             Text(model.noticeMessage ?? "")
+        }
+        .alert(item: $updateChecker.presentation) { presentation in
+            switch presentation {
+            case let .available(release):
+                Alert(
+                    title: Text("发现新版本 \(release.tagName)"),
+                    message: Text(release.notes.isEmpty ? release.title : release.notes),
+                    primaryButton: .default(Text("查看下载")) { updateChecker.openRelease(release) },
+                    secondaryButton: .cancel(Text("稍后"))
+                )
+            case let .message(title, body):
+                Alert(title: Text(title), message: Text(body), dismissButton: .default(Text("好")))
+            }
         }
     }
 

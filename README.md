@@ -1,6 +1,6 @@
 # Codex Tidy
 
-[English](README.en.md) · [下载公开测试版](https://github.com/Qiushi0919/Codex-Tidy/releases/tag/v0.1.0-beta.1) · [隐私说明](PRIVACY.md)
+[English](README.en.md) · [下载公开测试版](https://github.com/Qiushi0919/Codex-Tidy/releases/tag/v0.1.0-beta.2) · [隐私说明](PRIVACY.md)
 
 ![Codex Tidy 产品封面：对话、文件与空间，一眼理清](docs/screenshots/codex-tidy-cover.png)
 
@@ -15,6 +15,7 @@ Codex Tidy 是一个开源的 macOS 原生工具，用来查看 Codex 对话文�
 - 扫描 `node_modules`、`.gradle`、`.build`、`.next`、`__pycache__` 等可重建缓存。
 - 只把高置信度缓存移到 macOS 废纸篓；`dist`、`build`、APK 等潜在成果只供检查。
 - 通过 App Server 归档或永久删除对话，不直接修改 Codex 的 SQLite 数据库。
+- 启动后每天检查一次 GitHub Releases；也可从侧栏顶部手动检查，发现新版后由用户决定是否打开下载页。
 - 附带只读 `codexfm` CLI，方便脚本或后续 Skill 调用。
 
 ## 运行截图
@@ -57,7 +58,7 @@ open "dist/Codex Tidy.app"
 生成内容：
 
 - `dist/Codex Tidy.app`：通用架构 macOS 应用。
-- `dist/Codex-Tidy-macOS-universal-v0.1.0-beta.1.zip`：发布包。
+- `dist/Codex-Tidy-macOS-universal-v0.1.0-beta.2.zip`：发布包。
 - `dist/bin/codexfm`：通用架构只读命令行工具。
 
 有 Developer ID 证书时可这样签名；若同时配置 `notarytool` 钥匙串配置，还会自动提交公证：

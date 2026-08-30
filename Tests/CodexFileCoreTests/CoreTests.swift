@@ -2,6 +2,13 @@ import XCTest
 @testable import CodexFileCore
 
 final class CoreTests: XCTestCase {
+    func testReleaseVersionComparison() throws {
+        XCTAssertEqual(ReleaseVersion("v0.1.0-beta.1"), ReleaseVersion("0.1.0-beta.1"))
+        XCTAssertLessThan(try XCTUnwrap(ReleaseVersion("0.1.0-beta.1")), try XCTUnwrap(ReleaseVersion("0.1.0")))
+        XCTAssertLessThan(try XCTUnwrap(ReleaseVersion("0.1.0-beta.2")), try XCTUnwrap(ReleaseVersion("0.1.0-beta.10")))
+        XCTAssertLessThan(try XCTUnwrap(ReleaseVersion("0.1.9")), try XCTUnwrap(ReleaseVersion("0.2.0")))
+    }
+
     func testParsesThreadListItem() throws {
         let object: [String: Any] = [
             "id": "thread-1",

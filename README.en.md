@@ -1,6 +1,6 @@
 # Codex Tidy
 
-[中文](README.md) · [Public beta](https://github.com/Qiushi0919/Codex-Tidy/releases/tag/v0.1.0-beta.1) · [Privacy](PRIVACY.md)
+[中文](README.md) · [Public beta](https://github.com/Qiushi0919/Codex-Tidy/releases/tag/v0.1.0-beta.2) · [Privacy](PRIVACY.md)
 
 ![Codex Tidy cover: threads, files, and storage at a glance](docs/screenshots/codex-tidy-cover.png)
 
@@ -15,6 +15,7 @@ Codex Tidy is an open-source native macOS utility for locating Codex conversatio
 - Finds rebuildable caches such as `node_modules`, `.gradle`, `.build`, `.next`, and `__pycache__`.
 - Moves only high-confidence cache candidates to the macOS Trash. Potential deliverables such as `dist`, `build`, and APK files are review-only.
 - Archives or permanently deletes threads through App Server instead of editing Codex's private database.
+- Checks GitHub Releases once per day and provides a manual sidebar check; the user chooses whether to open the download page.
 - Includes a read-only JSON CLI, `codexfm`, for scripts and future Skill integrations.
 
 ## Screenshots

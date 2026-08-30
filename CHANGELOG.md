@@ -2,6 +2,13 @@
 
 All notable changes are documented here.
 
+## [0.1.0-beta.2] - 2026-08-30
+
+### Added
+
+- Daily GitHub Releases checks and a manual update button in the sidebar and app menu.
+- User-controlled download flow that never silently replaces the installed app.
+
 ## [0.1.0-beta.1] - 2026-08-29
 
 ### Added

@@ -1,6 +1,6 @@
-# Codex Tidy 0.1.0 Beta 1
+# Codex Tidy 0.1.0 Beta 2
 
-首个社区公开测试版。
+本次测试版加入应用内更新检查，同时保留由用户确认下载与安装的安全边界。
 
 ## 主要功能
 
@@ -9,6 +9,8 @@
 - 扫描常见构建缓存，只把高置信度可重建内容移入废纸篓。
 - 通过 Codex App Server 归档或永久删除对话，并保护正在运行或最近更新的对话。
 - 同时支持 Apple Silicon 和 Intel Mac。
+- 启动后每天检查一次 GitHub Releases，并在侧栏顶部提供手动“检查更新”按钮。
+- 发现新版时只提示并打开官方 Release 下载页，不静默替换应用。
 
 ## 安装提示
 
@@ -16,10 +18,10 @@
 
 需要 macOS 14 或更高版本，并已安装、登录 ChatGPT/Codex。请在删除任何内容前备份或提交重要成果。
 
-ZIP SHA-256：`9a9a80b3450a3c108f35a44f7731f9b830822ed5d6f57ceb338b6472891e672b`
+ZIP SHA-256：`980b55fa2a061e972b56170b7d53989989d781b7e7eca0f291931117e6063369`
 
 ---
 
-First public beta. It locates Codex thread logs and workspaces, reports disk usage, scans rebuildable caches, and moves only high-confidence cleanup candidates to Trash. The Universal build supports both Apple Silicon and Intel Macs.
+This beta adds a daily GitHub Releases check and a manual update button in the sidebar. Updates are never installed silently: the app only offers to open the official Release download page. It continues to locate Codex thread logs and workspaces, report disk usage, scan rebuildable caches, and move only high-confidence cleanup candidates to Trash.
 
 This build is ad-hoc signed and not yet Apple-notarized. Control-click the app and choose **Open** on first launch. macOS 14 or later and a local signed-in ChatGPT/Codex installation are required.
