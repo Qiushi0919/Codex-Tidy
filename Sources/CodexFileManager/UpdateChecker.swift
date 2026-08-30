@@ -69,7 +69,7 @@ final class UpdateChecker: ObservableObject {
                 availableRelease = release
                 presentation = .available(release)
             } else if interactive {
-                presentation = .message(title: "已是最新版本", body: "当前版本 (currentReleaseVersion)，暂无可用更新。")
+                presentation = .message(title: "已是最新版本", body: "当前版本 \(currentReleaseVersion)，暂无可用更新。")
             }
         } catch {
             if interactive {
