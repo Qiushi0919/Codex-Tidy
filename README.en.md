@@ -2,6 +2,11 @@
 
 [中文](README.md) · [Public beta](https://github.com/Qiushi0919/Codex-Tidy/releases/tag/v0.1.0-beta.2) · [Privacy](PRIVACY.md)
 
+> [!IMPORTANT]
+> **⬇️ [Download the latest macOS Universal ZIP](https://github.com/Qiushi0919/Codex-Tidy/releases/download/v0.1.0-beta.2/Codex-Tidy-macOS-universal-v0.1.0-beta.2.zip)** · [View all releases](https://github.com/Qiushi0919/Codex-Tidy/releases)
+>
+> Installers are published as GitHub Release assets, so they do not appear in the repository's source-file list.
+
 ![Codex Tidy cover: threads, files, and storage at a glance](docs/screenshots/codex-tidy-cover.png)
 
 Codex Tidy is an open-source native macOS utility for locating Codex conversation logs and project workspaces, inspecting common build artifacts, and reclaiming space with conservative cleanup rules.

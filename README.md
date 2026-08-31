@@ -2,6 +2,11 @@
 
 [English](README.en.md) · [下载公开测试版](https://github.com/Qiushi0919/Codex-Tidy/releases/tag/v0.1.0-beta.2) · [隐私说明](PRIVACY.md)
 
+> [!IMPORTANT]
+> **⬇️ [下载最新 macOS Universal ZIP](https://github.com/Qiushi0919/Codex-Tidy/releases/download/v0.1.0-beta.2/Codex-Tidy-macOS-universal-v0.1.0-beta.2.zip)** · [查看所有版本](https://github.com/Qiushi0919/Codex-Tidy/releases)
+>
+> 安装包作为 GitHub Release 附件发布，因此不会出现在仓库源码文件列表中。
+
 ![Codex Tidy 产品封面：对话、文件与空间，一眼理清](docs/screenshots/codex-tidy-cover.png)
 
 Codex Tidy 是一个开源的 macOS 原生工具，用来查看 Codex 对话文件、项目工作目录与常见构建缓存，并以保守规则释放磁盘空间。
