@@ -23,6 +23,10 @@ final class AppModel: ObservableObject {
         return threads.first { $0.id == selectedThreadID }
     }
 
+    var relocatedThreadCount: Int {
+        threads.filter(\.wasWorkingDirectoryRelocated).count
+    }
+
     var projectGroups: [ProjectGroup] {
         let normalizedSearch = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let visibleThreads = threads.filter { thread in
@@ -39,8 +43,9 @@ final class AppModel: ObservableObject {
                 return ProjectGroup(
                     id: key,
                     name: representative.projectName,
-                    path: representative.cwd,
-                    threads: sorted
+                    path: representative.resolvedProjectPath ?? representative.cwd,
+                    threads: sorted,
+                    directorySize: sorted.map(\.projectDirectorySize).max() ?? 0
                 )
             }
             .sorted {
@@ -70,12 +75,18 @@ final class AppModel: ObservableObject {
             async let loadedThreads = Task.detached(priority: .userInitiated) {
                 try client.listThreads()
             }.value
+            async let loadedProjects: [CodexProjectRecord] = Task.detached(priority: .utility) {
+                (try? client.listProjects()) ?? []
+            }.value
             async let loadedStorage = Task.detached(priority: .utility) {
                 StorageInspector.inspectDefaultLocations()
             }.value
 
-            let (newThreads, newStorage) = try await (loadedThreads, loadedStorage)
-            threads = newThreads
+            let (newThreads, newProjects, newStorage) = try await (loadedThreads, loadedProjects, loadedStorage)
+            let resolvedThreads = await Task.detached(priority: .utility) {
+                WorkspaceResolver.resolve(threads: newThreads, projects: newProjects)
+            }.value
+            threads = resolvedThreads
             storageLocations = newStorage
 
             if let selectedThreadID, threads.contains(where: { $0.id == selectedThreadID }) {
@@ -83,6 +94,7 @@ final class AppModel: ObservableObject {
             } else {
                 selectedThreadID = threads.first?.id
             }
+            await scanSelectedThread()
         } catch {
             errorMessage = error.localizedDescription
         }

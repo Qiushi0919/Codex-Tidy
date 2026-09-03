@@ -2,6 +2,14 @@
 
 All notable changes are documented here.
 
+## Unreleased
+
+### Changed
+
+- Refresh now follows every App Server pagination cursor and reloads current Codex project roots.
+- Historical working directories can be re-located through a project-owned `对话目录映射.json` map.
+- Sidebar groups now match current Codex projects and show real project-folder, working-directory, and log sizes.
+
 ## [0.1.0-beta.2] - 2026-08-30
 
 ### Added

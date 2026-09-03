@@ -16,7 +16,9 @@ Codex Tidy 是一个开源的 macOS 原生工具，用来查看 Codex 对话文�
 ## 能做什么
 
 - 通过用户本机的 `codex app-server` 读取对话标题、ID、工作目录、日志路径、归档状态和更新时间。
-- 按工作目录组织对话，显示每个对话日志和 Codex 存储位置的实际占用。
+- 刷新时完整遍历 App Server 分页，按 Codex 当前项目根目录组织对话。
+- 对项目内存在 `对话目录映射.json` 的工作区，可把搬家前的历史路径重新定位到当前文件夹。
+- 侧栏同时显示项目文件夹、每个对话工作目录与对话日志的实际占用。
 - 扫描 `node_modules`、`.gradle`、`.build`、`.next`、`__pycache__` 等可重建缓存。
 - 只把高置信度缓存移到 macOS 废纸篓；`dist`、`build`、APK 等潜在成果只供检查。
 - 通过 App Server 归档或永久删除对话，不直接修改 Codex 的 SQLite 数据库。
@@ -102,7 +104,7 @@ codexfm scan "/path/to/project"
 ## 已知限制
 
 - Codex 没有提供“某次对话生成的全部成果文件”清单；历史成果归属只能通过目录、Git 和时间做保守推断。
-- 项目分组以 App Server 返回的 `projectId` 和工作目录为准，不读取 Codex 私有数据库中的侧边栏排序。
+- 项目分组以 App Server 返回的当前项目根目录为准，可选读取项目自己的 `对话目录映射.json`；不读取 Codex 私有数据库。
 - 目录扫描默认限制深度和访问数量，以免在大型磁盘上长时间阻塞。
 - `codex app-server` 协议仍可能随 Codex 版本变化；遇到兼容问题请提交 Issue，并附 Codex 版本但不要附对话内容或令牌。
 

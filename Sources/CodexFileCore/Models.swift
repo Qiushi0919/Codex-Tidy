@@ -13,6 +13,11 @@ public struct CodexThreadRecord: Identifiable, Codable, Hashable, Sendable {
     public let createdAt: TimeInterval
     public let updatedAt: TimeInterval
     public let logSize: Int64
+    public let sourceCwd: String
+    public let resolvedProjectName: String?
+    public let resolvedProjectPath: String?
+    public let workingDirectorySize: Int64
+    public let projectDirectorySize: Int64
 
     public init(
         id: String,
@@ -26,7 +31,12 @@ public struct CodexThreadRecord: Identifiable, Codable, Hashable, Sendable {
         isArchived: Bool,
         createdAt: TimeInterval,
         updatedAt: TimeInterval,
-        logSize: Int64
+        logSize: Int64,
+        sourceCwd: String? = nil,
+        resolvedProjectName: String? = nil,
+        resolvedProjectPath: String? = nil,
+        workingDirectorySize: Int64 = 0,
+        projectDirectorySize: Int64 = 0
     ) {
         self.id = id
         self.title = title
@@ -40,6 +50,11 @@ public struct CodexThreadRecord: Identifiable, Codable, Hashable, Sendable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.logSize = logSize
+        self.sourceCwd = sourceCwd ?? cwd
+        self.resolvedProjectName = resolvedProjectName
+        self.resolvedProjectPath = resolvedProjectPath
+        self.workingDirectorySize = workingDirectorySize
+        self.projectDirectorySize = projectDirectorySize
     }
 
     public var displayTitle: String {
@@ -61,12 +76,26 @@ public struct CodexThreadRecord: Identifiable, Codable, Hashable, Sendable {
         if let projectID, !projectID.isEmpty {
             return "project:\(projectID)"
         }
+        if let resolvedProjectPath, !resolvedProjectPath.isEmpty {
+            return "project-path:\(resolvedProjectPath)"
+        }
         return "cwd:\(cwd)"
     }
 
     public var projectName: String {
-        guard !cwd.isEmpty else { return "未知位置" }
-        return URL(fileURLWithPath: cwd).lastPathComponent
+        if let resolvedProjectName {
+            let trimmed = resolvedProjectName.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty { return trimmed }
+        }
+        let path = resolvedProjectPath ?? cwd
+        guard !path.isEmpty else { return "未知位置" }
+        return URL(fileURLWithPath: path).lastPathComponent
+    }
+
+    public var wasWorkingDirectoryRelocated: Bool {
+        guard !sourceCwd.isEmpty, !cwd.isEmpty else { return false }
+        return URL(fileURLWithPath: sourceCwd).standardizedFileURL.path
+            != URL(fileURLWithPath: cwd).standardizedFileURL.path
     }
 
     public var updatedDate: Date {
@@ -84,16 +113,30 @@ public struct ProjectGroup: Identifiable, Hashable, Sendable {
     public let name: String
     public let path: String
     public let threads: [CodexThreadRecord]
+    public let directorySize: Int64
 
-    public init(id: String, name: String, path: String, threads: [CodexThreadRecord]) {
+    public init(id: String, name: String, path: String, threads: [CodexThreadRecord], directorySize: Int64) {
         self.id = id
         self.name = name
         self.path = path
         self.threads = threads
+        self.directorySize = directorySize
     }
 
     public var totalLogSize: Int64 {
         threads.reduce(0) { $0 + $1.logSize }
+    }
+}
+
+public struct CodexProjectRecord: Identifiable, Codable, Hashable, Sendable {
+    public let id: String
+    public let name: String
+    public let rootPaths: [String]
+
+    public init(id: String, name: String, rootPaths: [String]) {
+        self.id = id
+        self.name = name
+        self.rootPaths = rootPaths
     }
 }
 

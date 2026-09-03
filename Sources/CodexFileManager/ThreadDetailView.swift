@@ -52,6 +52,9 @@ struct ThreadDetailView: View {
                 HStack(spacing: 8) {
                     StatusBadge(text: thread.isArchived ? "已归档" : statusText, color: statusColor)
                     StatusBadge(text: thread.source, color: .secondary)
+                    if thread.wasWorkingDirectoryRelocated {
+                        StatusBadge(text: "已重新定位", color: .green)
+                    }
                     Text(thread.id)
                         .font(.caption.monospaced())
                         .foregroundStyle(.secondary)
@@ -64,6 +67,12 @@ struct ThreadDetailView: View {
 
     private var summaryCards: some View {
         HStack(spacing: 12) {
+            MetricCard(
+                title: "工作目录",
+                value: ByteFormatting.string(thread.workingDirectorySize),
+                symbol: "folder",
+                tint: .indigo
+            )
             MetricCard(
                 title: "对话日志",
                 value: ByteFormatting.string(thread.logSize),
@@ -86,14 +95,24 @@ struct ThreadDetailView: View {
     }
 
     private var locationsSection: some View {
-        SectionCard(title: "文件位置", subtitle: "路径来自 Codex App Server，不根据标题猜测。") {
+        SectionCard(title: "文件位置", subtitle: "刷新时重读 Codex 项目；历史路径可通过项目内的对话目录映射重新定位。") {
             VStack(spacing: 0) {
                 PathRow(
-                    title: "工作目录",
+                    title: thread.wasWorkingDirectoryRelocated ? "工作目录（已重新定位）" : "工作目录",
                     path: thread.cwd,
                     icon: "folder",
                     revealPath: thread.cwd
                 )
+
+                if thread.wasWorkingDirectoryRelocated {
+                    Divider().padding(.leading, 34)
+                    PathRow(
+                        title: "Codex 原始记录（历史路径）",
+                        path: thread.sourceCwd,
+                        icon: "clock.arrow.circlepath",
+                        revealPath: nil
+                    )
+                }
 
                 Divider().padding(.leading, 34)
 

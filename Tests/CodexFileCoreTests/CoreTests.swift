@@ -33,6 +33,112 @@ final class CoreTests: XCTestCase {
         XCTAssertFalse(thread.isArchived)
     }
 
+    func testParsesThreadAndProjectPaginationMetadata() throws {
+        let threadResponse: [String: Any] = [
+            "result": [
+                "data": [[
+                    "id": "thread-2",
+                    "name": "分页对话",
+                    "cwd": "/tmp/project"
+                ]],
+                "nextCursor": "next-thread-page"
+            ]
+        ]
+        let threadPage = try CodexAppServerClient.parseThreadListPage(threadResponse, archived: false)
+        XCTAssertEqual(threadPage.threads.map(\.id), ["thread-2"])
+        XCTAssertEqual(threadPage.nextCursor, "next-thread-page")
+
+        let projectResponse: [String: Any] = [
+            "result": [
+                "data": [[
+                    "id": "project-2",
+                    "name": "应用与网站",
+                    "roots": [["path": "/tmp/apps"]]
+                ]],
+                "nextCursor": "next-project-page"
+            ]
+        ]
+        let projectPage = try CodexAppServerClient.parseProjectListPage(projectResponse)
+        XCTAssertEqual(projectPage.projects.first?.name, "应用与网站")
+        XCTAssertEqual(projectPage.projects.first?.rootPaths, ["/tmp/apps"])
+        XCTAssertEqual(projectPage.nextCursor, "next-project-page")
+    }
+
+    func testWorkspaceResolverRelocatesMappedThreadAndMeasuresDirectories() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let threadFolder = root.appendingPathComponent("Codex Tidy", isDirectory: true)
+        try FileManager.default.createDirectory(at: threadFolder, withIntermediateDirectories: true)
+        try Data(repeating: 1, count: 32).write(to: threadFolder.appendingPathComponent("source.txt"))
+
+        let mapping = """
+        {
+          "threads": {
+            "mapped-thread": {
+              "folder": "Codex Tidy",
+              "mode": "conversation"
+            }
+          }
+        }
+        """
+        try Data(mapping.utf8).write(to: root.appendingPathComponent("对话目录映射.json"))
+
+        let rawThread = CodexThreadRecord(
+            id: "mapped-thread",
+            title: "Codex Tidy",
+            preview: "",
+            cwd: "/tmp/old-location",
+            logPaths: [],
+            projectID: nil,
+            source: "vscode",
+            status: "idle",
+            isArchived: false,
+            createdAt: 1,
+            updatedAt: 2,
+            logSize: 0
+        )
+        let project = CodexProjectRecord(id: "apps", name: "应用与网站", rootPaths: [root.path])
+        let resolved = try XCTUnwrap(WorkspaceResolver.resolve(threads: [rawThread], projects: [project]).first)
+
+        XCTAssertEqual(resolved.cwd, threadFolder.path)
+        XCTAssertEqual(resolved.sourceCwd, "/tmp/old-location")
+        XCTAssertEqual(resolved.projectID, "apps")
+        XCTAssertEqual(resolved.projectName, "应用与网站")
+        XCTAssertEqual(resolved.resolvedProjectPath, root.path)
+        XCTAssertTrue(resolved.wasWorkingDirectoryRelocated)
+        XCTAssertGreaterThan(resolved.workingDirectorySize, 0)
+        XCTAssertGreaterThanOrEqual(resolved.projectDirectorySize, resolved.workingDirectorySize)
+    }
+
+    func testWorkspaceResolverUsesUniqueProjectNameForMissingLegacyPath() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+
+        let rawThread = CodexThreadRecord(
+            id: "legacy-thread",
+            title: "历史对话",
+            preview: "",
+            cwd: "/missing/location/炒股",
+            logPaths: [],
+            projectID: nil,
+            source: "vscode",
+            status: "idle",
+            isArchived: false,
+            createdAt: 1,
+            updatedAt: 2,
+            logSize: 0
+        )
+        let project = CodexProjectRecord(id: "stocks", name: "炒股", rootPaths: [root.path])
+        let resolved = try XCTUnwrap(WorkspaceResolver.resolve(threads: [rawThread], projects: [project]).first)
+
+        XCTAssertEqual(resolved.cwd, root.path)
+        XCTAssertEqual(resolved.projectID, "stocks")
+        XCTAssertTrue(resolved.wasWorkingDirectoryRelocated)
+    }
+
     func testRulesSeparateSafeCachesFromReviewArtifacts() throws {
         XCTAssertEqual(ArtifactScanner.rule(forDirectoryName: "node_modules")?.confidence, .safe)
         XCTAssertEqual(ArtifactScanner.rule(forDirectoryName: ".next")?.confidence, .safe)

@@ -41,36 +41,34 @@ public struct CodexAppServerClient: Sendable {
     }
 
     public func listThreads() throws -> [CodexThreadRecord] {
-        let requests: [[String: Any]] = [
-            initializeRequest,
-            ["method": "initialized", "params": [:]],
-            [
-                "method": "thread/list",
-                "id": 1,
-                "params": [
-                    "limit": 1_000,
-                    "sortKey": "updated_at",
-                    "sortDirection": "desc",
-                    "archived": false
-                ]
-            ],
-            [
-                "method": "thread/list",
-                "id": 2,
-                "params": [
-                    "limit": 1_000,
-                    "sortKey": "updated_at",
-                    "sortDirection": "desc",
-                    "archived": true
-                ]
-            ]
-        ]
-
-        let responses = try run(requests: requests)
-        let active = try parseThreadList(responses[1], archived: false)
-        let archived = try parseThreadList(responses[2], archived: true)
+        let active = try listThreadSegment(archived: false)
+        let archived = try listThreadSegment(archived: true)
         return Self.mergeThreadSegments(active + archived)
             .sorted { $0.updatedAt > $1.updatedAt }
+    }
+
+    public func listProjects() throws -> [CodexProjectRecord] {
+        var projects: [CodexProjectRecord] = []
+        var cursor: String?
+        var seenCursors: Set<String> = []
+
+        repeat {
+            var params: [String: Any] = ["limit": 100]
+            if let cursor { params["cursor"] = cursor }
+            let response = try perform(method: "project/list", params: params)
+            let page = try Self.parseProjectListPage(response)
+            projects.append(contentsOf: page.projects)
+
+            guard let nextCursor = page.nextCursor, !nextCursor.isEmpty else { break }
+            guard seenCursors.insert(nextCursor).inserted else {
+                throw CodexFileManagerError.malformedResponse("project/list 返回了重复的分页游标")
+            }
+            cursor = nextCursor
+        } while true
+
+        return Dictionary(grouping: projects, by: \.id)
+            .compactMap { $0.value.first }
+            .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
     public func archiveThread(id: String) throws {
@@ -78,7 +76,7 @@ public struct CodexAppServerClient: Sendable {
             method: "thread/archive",
             params: ["threadId": id]
         )
-        try throwIfError(response)
+        try Self.throwIfError(response)
     }
 
     public func deleteThread(id: String) throws {
@@ -86,7 +84,7 @@ public struct CodexAppServerClient: Sendable {
             method: "thread/delete",
             params: ["threadId": id]
         )
-        try throwIfError(response)
+        try Self.throwIfError(response)
     }
 
     private var initializeRequest: [String: Any] {
@@ -98,9 +96,38 @@ public struct CodexAppServerClient: Sendable {
                     "name": "codex_file_manager",
                     "title": "Codex Tidy",
                     "version": "0.1.0"
-                ]
+                ],
+                "capabilities": ["experimentalApi": true]
             ]
         ]
+    }
+
+    private func listThreadSegment(archived: Bool) throws -> [CodexThreadRecord] {
+        var threads: [CodexThreadRecord] = []
+        var cursor: String?
+        var seenCursors: Set<String> = []
+
+        repeat {
+            var params: [String: Any] = [
+                "limit": 200,
+                "sortKey": "updated_at",
+                "sortDirection": "desc",
+                "archived": archived
+            ]
+            if let cursor { params["cursor"] = cursor }
+
+            let response = try perform(method: "thread/list", params: params)
+            let page = try Self.parseThreadListPage(response, archived: archived)
+            threads.append(contentsOf: page.threads)
+
+            guard let nextCursor = page.nextCursor, !nextCursor.isEmpty else { break }
+            guard seenCursors.insert(nextCursor).inserted else {
+                throw CodexFileManagerError.malformedResponse("thread/list 返回了重复的分页游标")
+            }
+            cursor = nextCursor
+        } while true
+
+        return threads
     }
 
     private func perform(method: String, params: [String: Any]) throws -> [String: Any] {
@@ -192,10 +219,10 @@ public struct CodexAppServerClient: Sendable {
         return capturedResponses
     }
 
-    private func parseThreadList(_ response: [String: Any]?, archived: Bool) throws -> [CodexThreadRecord] {
-        guard let response else {
-            throw CodexFileManagerError.malformedResponse("缺少 thread/list 响应")
-        }
+    static func parseThreadListPage(
+        _ response: [String: Any],
+        archived: Bool
+    ) throws -> (threads: [CodexThreadRecord], nextCursor: String?) {
         try throwIfError(response)
 
         guard let result = response["result"] as? [String: Any],
@@ -203,10 +230,32 @@ public struct CodexAppServerClient: Sendable {
             throw CodexFileManagerError.malformedResponse("thread/list 缺少 data")
         }
 
-        return data.compactMap { Self.parseThread($0, archived: archived) }
+        return (
+            data.compactMap { Self.parseThread($0, archived: archived) },
+            result["nextCursor"] as? String
+        )
     }
 
-    private func throwIfError(_ response: [String: Any]) throws {
+    static func parseProjectListPage(
+        _ response: [String: Any]
+    ) throws -> (projects: [CodexProjectRecord], nextCursor: String?) {
+        try throwIfError(response)
+        guard let result = response["result"] as? [String: Any],
+              let data = result["data"] as? [[String: Any]] else {
+            throw CodexFileManagerError.malformedResponse("project/list 缺少 data")
+        }
+
+        let projects = data.compactMap { object -> CodexProjectRecord? in
+            guard let id = object["id"] as? String,
+                  let name = object["name"] as? String else { return nil }
+            let roots = (object["roots"] as? [[String: Any]] ?? [])
+                .compactMap { $0["path"] as? String }
+            return CodexProjectRecord(id: id, name: name, rootPaths: roots)
+        }
+        return (projects, result["nextCursor"] as? String)
+    }
+
+    private static func throwIfError(_ response: [String: Any]) throws {
         guard let error = response["error"] as? [String: Any] else { return }
         let message = error["message"] as? String ?? String(describing: error)
         throw CodexFileManagerError.appServerFailed(message)

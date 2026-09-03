@@ -16,7 +16,9 @@ Codex Tidy is an open-source native macOS utility for locating Codex conversatio
 ## Features
 
 - Reads thread titles, IDs, working directories, log paths, archive state, and timestamps through the user's local `codex app-server`.
-- Groups threads by workspace and reports the disk usage of logs and Codex storage locations.
+- Traverses every App Server result page on refresh and groups threads by the current Codex project root.
+- Re-locates moved historical workspaces when a project provides a `对话目录映射.json` thread-to-folder map.
+- Reports actual disk usage for project folders, per-thread working directories, logs, and Codex storage locations.
 - Finds rebuildable caches such as `node_modules`, `.gradle`, `.build`, `.next`, and `__pycache__`.
 - Moves only high-confidence cache candidates to the macOS Trash. Potential deliverables such as `dist`, `build`, and APK files are review-only.
 - Archives or permanently deletes threads through App Server instead of editing Codex's private database.
@@ -77,7 +79,7 @@ The [official OpenAI documentation](https://learn.chatgpt.com/docs/app-server) d
 ## Limitations
 
 - Codex does not provide a complete manifest of files produced by each conversation. Historical artifact attribution is therefore conservative and based on workspace, Git state, and timestamps.
-- Project grouping follows App Server's `projectId` and working directory, not private sidebar-ordering data.
+- Project grouping follows current App Server project roots and optional project-owned thread maps; the app does not read Codex's private database.
 - App Server compatibility can change with Codex versions. When reporting a compatibility issue, include the Codex version but never include conversation content or tokens.
 
 Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md) first.

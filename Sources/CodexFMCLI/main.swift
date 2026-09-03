@@ -19,7 +19,10 @@ do {
     let arguments = Array(CommandLine.arguments.dropFirst())
     switch arguments.first {
     case "list":
-        let threads = try CodexAppServerClient().listThreads()
+        let client = try CodexAppServerClient()
+        let rawThreads = try client.listThreads()
+        let projects = (try? client.listProjects()) ?? []
+        let threads = WorkspaceResolver.resolve(threads: rawThreads, projects: projects)
         try printJSON(JSONOutput(threads: threads, candidates: nil, storage: nil))
     case "scan":
         let path = arguments.dropFirst().first ?? FileManager.default.currentDirectoryPath

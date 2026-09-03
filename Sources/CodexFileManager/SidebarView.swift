@@ -19,11 +19,14 @@ struct SidebarView: View {
                     } header: {
                         HStack {
                             Label(project.name, systemImage: "folder")
+                            Text("\(project.threads.count) 个")
+                                .font(.caption2)
                             Spacer()
-                            Text(ByteFormatting.string(project.totalLogSize))
+                            Text("文件夹 \(ByteFormatting.string(project.directorySize))")
                                 .font(.caption2)
                                 .foregroundStyle(.secondary)
                         }
+                        .help(project.path)
                     }
                 }
             }
@@ -44,9 +47,9 @@ struct SidebarView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("本机 Codex 空间")
                         .font(.headline)
-                    Text("\(model.threads.count) 个对话记录")
+                    Text(storageSummary)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(model.relocatedThreadCount > 0 ? Color.green : Color.secondary)
                 }
                 Spacer()
                 Button {
@@ -75,6 +78,13 @@ struct SidebarView: View {
             }
         }
         .padding(14)
+    }
+
+    private var storageSummary: String {
+        guard model.relocatedThreadCount > 0 else {
+            return "\(model.threads.count) 个对话记录"
+        }
+        return "\(model.threads.count) 个对话 · 已重新定位 \(model.relocatedThreadCount) 个路径"
     }
 
     private func storageMetric(title: String, id: String) -> some View {
@@ -108,7 +118,13 @@ private struct ThreadRow: View {
                     } else if thread.isArchived {
                         Text("已归档")
                     }
-                    Text(ByteFormatting.string(thread.logSize))
+                    if FileManager.default.fileExists(atPath: thread.cwd) {
+                        Text("文件夹 \(ByteFormatting.string(thread.workingDirectorySize))")
+                    } else {
+                        Label("目录不存在", systemImage: "exclamationmark.circle.fill")
+                            .foregroundStyle(.red)
+                    }
+                    Text("· 对话 \(ByteFormatting.string(thread.logSize))")
                 }
                 .font(.caption2)
                 .foregroundStyle(.secondary)
