@@ -117,3 +117,5 @@ Bug、兼容性报告和安全规则改进都欢迎。开始前请阅读 [CONTRI
 ## Personal portfolio / 个人主页
 
 [谢秋实 / Qiushi Xie · 中文主页](https://qiushi0919.cn/) · [English portfolio](https://qiushi0919.github.io/)
+
+[个人介绍 / About Qiushi Xie](https://qiushi0919.cn/about/) · [Google Scholar](https://scholar.google.com/citations?user=TkPyZ-UAAAAJ)
