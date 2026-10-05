@@ -113,3 +113,7 @@ codexfm scan "/path/to/project"
 Bug、兼容性报告和安全规则改进都欢迎。开始前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 和 [SECURITY.md](SECURITY.md)。
 
 本项目采用 [MIT License](LICENSE)。
+
+## Personal portfolio / 个人主页
+
+[谢秋实 / Qiushi Xie · 中文主页](https://qiushi0919.cn/) · [English portfolio](https://qiushi0919.github.io/)

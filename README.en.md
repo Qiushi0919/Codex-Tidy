@@ -85,3 +85,7 @@ The [official OpenAI documentation](https://learn.chatgpt.com/docs/app-server) d
 Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md) first.
 
 Licensed under the [MIT License](LICENSE).
+
+## Personal portfolio / 个人主页
+
+[谢秋实 / Qiushi Xie · 中文主页](https://qiushi0919.cn/) · [English portfolio](https://qiushi0919.github.io/)
